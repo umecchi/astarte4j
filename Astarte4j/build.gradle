@@ -1,0 +1,63 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
+}
+
+group = 'com.github.umecchi'
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        minSdk 28
+        targetSdk 31
+        versionCode 1
+        versionName "0.0.1"
+        version = android.defaultConfig.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            output.packageLibrary.exclude("libs/*")
+            if (variant.name == android.buildTypes.release.name) {
+                outputFileName = output.outputFile.name.replace(("-release.aar"), "-${version}.aar")
+            } else if (variant.name == android.buildTypes.debug.name) {
+                outputFileName = output.outputFile.name.replace((".aar"), "-${version}.aar")
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation compileOnly('com.squareup.okhttp3:okhttp:5.0.0-alpha.4')
+    implementation compileOnly('com.google.code.gson:gson:2.9.0')
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.umecchi'
+                artifactId = 'astarte4j'
+                version = version
+            }
+        }
+    }
+}
