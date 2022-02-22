@@ -30,6 +30,9 @@ class Data(
     @SerializedName("introduction_sentence")
     val introduction_sentence: String,
 
+    @SerializedName("favourited")
+    val favourited: Boolean,
+
     @SerializedName("client_data")
     val client_data: ClientData,
 
