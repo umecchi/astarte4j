@@ -8,7 +8,7 @@ import java.util.*
 
 class NotificationData(
     @SerializedName("notification_id")
-    val post_id: String,
+    val notification_id: String,
 
     @SerializedName("activity_type")
     val activity_type: String,
