@@ -4,6 +4,7 @@ import jp.umecchi.astarte4j.AstarteClient
 import jp.umecchi.astarte4j.AstarteRequest
 import jp.umecchi.astarte4j.Parameter
 import jp.umecchi.astarte4j.api.entities.status.Data
+import jp.umecchi.astarte4j.api.entities.status.DeleteStatus
 import jp.umecchi.astarte4j.api.entities.status.Message
 import jp.umecchi.astarte4j.api.exception.AstarteRequestException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -36,6 +37,20 @@ class statuses(private val client: AstarteClient) {
             },
             {
                 client.getSerializer().fromJson(it, Data::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun delete_status(
+        post_id: String?
+    ): AstarteRequest<DeleteStatus> {
+        return AstarteRequest(
+            {
+                client.delete("statuses/delete_status?post_id=$post_id")
+            },
+            {
+                client.getSerializer().fromJson(it, DeleteStatus::class.java)
             }
         )
     }
