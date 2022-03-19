@@ -9,6 +9,6 @@ class DeleteStatus(
     val message: String,
 
     @SerializedName("status")
-    val data: kotlin.collections.List<Data>,
+    val data: Data,
 ) {
 }
