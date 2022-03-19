@@ -8,19 +8,7 @@ class FavouritesData(
     @SerializedName("favourites_id")
     val favourites_id: String,
 
-    @SerializedName("account")
-    val account: Account,
-
-    @SerializedName("destination_status")
-    val destination_status: Data,
-
-    @SerializedName("reply_status")
-    val reply_status: Data,
-
-    @SerializedName("create_at")
-    val create_at: Date,
-
-    @SerializedName("update_at")
-    val update_at: Date,
+    @SerializedName("statusData")
+    val status_data: Data,
 ) {
 }
