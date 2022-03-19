@@ -2,7 +2,7 @@ package jp.umecchi.astarte4j.api.endpoints
 
 import jp.umecchi.astarte4j.AstarteClient
 import jp.umecchi.astarte4j.AstarteRequest
-import jp.umecchi.astarte4j.api.entities.status.Status
+import jp.umecchi.astarte4j.api.entities.status.FavouritesStatus
 import jp.umecchi.astarte4j.api.exception.AstarteRequestException
 
 class library (private val client: AstarteClient) {
@@ -11,7 +11,7 @@ class library (private val client: AstarteClient) {
     fun getFavourites(
         newest_id: String?,
         oldest_id: String?
-    ): AstarteRequest<Status> {
+    ): AstarteRequest<FavouritesStatus> {
         return AstarteRequest(
             {
                 val base_path = "library/favourites"
@@ -24,7 +24,7 @@ class library (private val client: AstarteClient) {
                 }
             },
             {
-                client.getSerializer().fromJson(it, Status::class.java)
+                client.getSerializer().fromJson(it, FavouritesStatus::class.java)
             }
         )
     }
