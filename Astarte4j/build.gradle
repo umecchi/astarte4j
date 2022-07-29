@@ -7,11 +7,11 @@ plugins {
 group = 'com.github.umecchi'
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
-        minSdk 28
-        targetSdk 31
+        minSdk 26
+        targetSdk 32
         versionCode 1
         versionName "0.0.1"
         version = android.defaultConfig.versionName
@@ -32,6 +32,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildToolsVersion '33.0.0 rc2'
     libraryVariants.all { variant ->
         variant.outputs.all { output ->
             output.packageLibrary.exclude("libs/*")
