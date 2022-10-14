@@ -96,4 +96,46 @@ class statuses(private val client: AstarteClient) {
             }
         )
     }
+
+    @Throws(AstarteRequestException::class)
+    fun reblog(
+        post_id: String
+    ): AstarteRequest<Message> {
+        val parameters = Parameter().apply {
+            append("post_id",post_id)
+        }.build()
+        return AstarteRequest(
+            {
+                client.post("statuses/reblog",
+                    RequestBody.create(
+                        "application/json; charset=utf-8".toMediaTypeOrNull(),
+                        parameters!!
+                    ))
+            },
+            {
+                client.getSerializer().fromJson(it, Message::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun unreblog(
+        post_id: String
+    ): AstarteRequest<Message> {
+        val parameters = Parameter().apply {
+            append("post_id",post_id)
+        }.build()
+        return AstarteRequest(
+            {
+                client.post("statuses/unreblog",
+                    RequestBody.create(
+                        "application/json; charset=utf-8".toMediaTypeOrNull(),
+                        parameters!!
+                    ))
+            },
+            {
+                client.getSerializer().fromJson(it, Message::class.java)
+            }
+        )
+    }
 }
