@@ -22,6 +22,9 @@ class Account(
     @SerializedName("header_url")
     val header_url: String,
 
+    @SerializedName("lock")
+    val lock: Boolean,
+
     @SerializedName("aspoints")
     val aspoints: Int?,
 ) {

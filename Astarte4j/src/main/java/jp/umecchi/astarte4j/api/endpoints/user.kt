@@ -3,6 +3,7 @@ package jp.umecchi.astarte4j.api.endpoints
 import jp.umecchi.astarte4j.AstarteClient
 import jp.umecchi.astarte4j.AstarteRequest
 import jp.umecchi.astarte4j.Parameter
+import jp.umecchi.astarte4j.api.entities.status.Message
 import jp.umecchi.astarte4j.api.entities.user.AccessToken
 import jp.umecchi.astarte4j.api.entities.user.Account
 import jp.umecchi.astarte4j.api.exception.AstarteRequestException
@@ -47,6 +48,42 @@ class user(private val client: AstarteClient) {
             },
             {
                 client.getSerializer().fromJson(it, Account::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun lock(): AstarteRequest<Message> {
+        val parameters = Parameter().apply {
+        }.build()
+        return AstarteRequest(
+            {
+                client.post("user/lock",
+                    RequestBody.create(
+                        "application/json; charset=utf-8".toMediaTypeOrNull(),
+                        parameters!!
+                    ))
+            },
+            {
+                client.getSerializer().fromJson(it, Message::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun unlock(): AstarteRequest<Message> {
+        val parameters = Parameter().apply {
+        }.build()
+        return AstarteRequest(
+            {
+                client.post("user/unlock",
+                    RequestBody.create(
+                        "application/json; charset=utf-8".toMediaTypeOrNull(),
+                        parameters!!
+                    ))
+            },
+            {
+                client.getSerializer().fromJson(it, Message::class.java)
             }
         )
     }

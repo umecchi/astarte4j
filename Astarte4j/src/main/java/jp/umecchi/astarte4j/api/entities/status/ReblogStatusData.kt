@@ -4,8 +4,7 @@ import com.google.gson.annotations.SerializedName
 import jp.umecchi.astarte4j.api.entities.user.Account
 import java.util.*
 
-
-class Data(
+class ReblogStatusData(
     @SerializedName("post_id")
     val post_id: String,
 
@@ -16,7 +15,7 @@ class Data(
     val content: String,
 
     @SerializedName("visibility")
-    val visibility: String = Visibility.Public.value,
+    val visibility: String = Data.Visibility.Public.value,
 
     @SerializedName("reply_destination_id")
     val reply_destination_id: String,
@@ -32,12 +31,6 @@ class Data(
 
     @SerializedName("favourited")
     val favourited: Boolean,
-
-    @SerializedName("reblog")
-    val reblog: Boolean,
-
-    @SerializedName("reblog_content")
-    val reblog_content: ReblogStatusData,
 
     @SerializedName("client_data")
     val client_data: ClientData,
