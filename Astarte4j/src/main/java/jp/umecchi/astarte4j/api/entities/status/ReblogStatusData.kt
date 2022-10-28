@@ -32,6 +32,9 @@ class ReblogStatusData(
     @SerializedName("favourited")
     val favourited: Boolean,
 
+    @SerializedName("media")
+    val media: List<Media> = emptyList(),
+
     @SerializedName("client_data")
     val client_data: ClientData,
 
