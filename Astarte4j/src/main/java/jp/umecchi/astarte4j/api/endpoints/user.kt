@@ -12,10 +12,11 @@ import okhttp3.RequestBody
 
 class user(private val client: AstarteClient) {
     @Throws(AstarteRequestException::class)
-    fun getToken(client_id: String, client_secret: String
+    fun getToken(email: String, client_id: String, client_secret: String
     ): AstarteRequest<AccessToken> {
         val parameters = Parameter().apply {
             append("grant_type","password")
+            append("email",email)
             append("client_id",client_id)
             append("client_secret",client_secret)
         }.build()
