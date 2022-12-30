@@ -5,9 +5,11 @@ import jp.umecchi.astarte4j.AstarteRequest
 import jp.umecchi.astarte4j.Parameter
 import jp.umecchi.astarte4j.api.entities.status.Data
 import jp.umecchi.astarte4j.api.entities.status.DeleteStatus
+import jp.umecchi.astarte4j.api.entities.status.Media
 import jp.umecchi.astarte4j.api.entities.status.Message
 import jp.umecchi.astarte4j.api.exception.AstarteRequestException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class statuses(private val client: AstarteClient) {
@@ -15,6 +17,7 @@ class statuses(private val client: AstarteClient) {
     @Throws(AstarteRequestException::class)
     fun new_status(
         content: String?,
+        mediaIds: List<String>?,
         visibility: Data.Visibility = Data.Visibility.Public,
         reply_destination_id: String?,
         sensitive: Boolean?,
@@ -22,6 +25,7 @@ class statuses(private val client: AstarteClient) {
     ): AstarteRequest<Data> {
         val parameters = Parameter().apply {
             content?.let { append("content", it) }
+            mediaIds?.let { append("media_ids", it) }
             append("visibility",visibility.value)
             reply_destination_id?.let { append("reply_destination_id", it) }
             sensitive?.let { append("sensitive", it) }
@@ -135,6 +139,31 @@ class statuses(private val client: AstarteClient) {
             },
             {
                 client.getSerializer().fromJson(it, Message::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun post_media(
+        file: MultipartBody.Part,
+        visibility: Media.Visibility = Media.Visibility.Direct,
+        search: Boolean?,
+        public: Boolean?
+    ): AstarteRequest<Media> {
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("visibility", visibility.toString())
+            .addFormDataPart("search", search.toString())
+            .addFormDataPart("public", public.toString())
+            .addPart(file)
+            .build()
+        return AstarteRequest(
+            {
+                client.post("statuses/media",requestBody
+                )
+            },
+            {
+                client.getSerializer().fromJson(it, Media::class.java)
             }
         )
     }
