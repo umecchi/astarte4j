@@ -1,5 +1,6 @@
 package jp.umecchi.astarte4j.api.endpoints
 
+import android.util.Log
 import jp.umecchi.astarte4j.AstarteClient
 import jp.umecchi.astarte4j.AstarteRequest
 import jp.umecchi.astarte4j.Parameter
@@ -25,12 +26,13 @@ class statuses(private val client: AstarteClient) {
     ): AstarteRequest<Data> {
         val parameters = Parameter().apply {
             content?.let { append("content", it) }
-            mediaIds?.let { append("media_ids", it) }
+            mediaIds?.let { append("media", it) }
             append("visibility",visibility.value)
             reply_destination_id?.let { append("reply_destination_id", it) }
             sensitive?.let { append("sensitive", it) }
             introduction_sentence?.let { append("introduction_sentence:", it) }
         }.build()
+        Log.d("debug", parameters.toString())
         return AstarteRequest(
             {
                 client.post("statuses/new_status",
