@@ -12,13 +12,14 @@ import jp.umecchi.astarte4j.api.exception.AstarteRequestException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.json.JSONArray
 
 class statuses(private val client: AstarteClient) {
 
     @Throws(AstarteRequestException::class)
     fun new_status(
         content: String?,
-        mediaIds: List<String>?,
+        mediaIds: JSONArray?,
         visibility: Data.Visibility = Data.Visibility.Public,
         reply_destination_id: String?,
         sensitive: Boolean?,
