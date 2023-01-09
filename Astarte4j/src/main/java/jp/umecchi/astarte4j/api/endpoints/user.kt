@@ -48,7 +48,7 @@ class user(private val client: AstarteClient) {
             {
                 val base_path = "user/profile"
                 if (id != null) {
-                    client.get("$base_path?id=id")
+                    client.get("$base_path?id=$id")
                 } else {
                     client.get(base_path)
                 }
