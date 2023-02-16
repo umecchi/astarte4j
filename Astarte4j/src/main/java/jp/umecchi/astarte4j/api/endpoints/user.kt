@@ -101,7 +101,6 @@ class user(private val client: AstarteClient) {
 
     @Throws(AstarteRequestException::class)
     fun getPosts(
-        request_data: String?,
         user_id: String?,
         oldest_id: String?,
         newest_id: String?
@@ -109,40 +108,65 @@ class user(private val client: AstarteClient) {
         return AstarteRequest(
             {
                 val base_path = "user/posts"
+                val request_data = "status"
                 //val parameter = "?request_data=$request_data&user_id=$user_id&oldest_id=$oldest_id&newest_id=$newest_id"
-                var parameter = ""
-                if (request_data != null || user_id != null || oldest_id != null || newest_id != null) {
+                var parameter = "request_data=$request_data"
+                if (user_id != null || oldest_id != null || newest_id != null) {
                     parameter += "?"
                 }
-                if (request_data != null) {
-                    parameter += "request_data=$request_data"
-                }
                 if (user_id != null) {
-                    if (request_data != null) {
-                        parameter += "&"
-                    }
+                    parameter += "&"
+
                     parameter += "user_id=$user_id"
                 }
                 if (oldest_id != null) {
-                    if (request_data != null || user_id != null) {
-                        parameter += "&"
-                    }
+                    parameter += "&"
                     parameter += "oldest_id=$oldest_id"
                 }
                 if (newest_id != null) {
-                    if (request_data != null || user_id != null) {
-                        parameter += "&"
-                    }
+                    parameter += "&"
                     parameter += "newest_id=$newest_id"
                 }
                 client.get("$base_path$parameter")
             },
             {
-                if (request_data.equals("media")) {
-                    client.getSerializer().fromJson(it, MediaStatus::class.java)
-                } else {
-                    client.getSerializer().fromJson(it, Status::class.java)
+                client.getSerializer().fromJson(it, Status::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun getMedia(
+        user_id: String?,
+        oldest_id: String?,
+        newest_id: String?
+    ): AstarteRequest<MediaStatus> {
+        return AstarteRequest(
+            {
+                val base_path = "user/posts"
+                val request_data = "media"
+                //val parameter = "?request_data=$request_data&user_id=$user_id&oldest_id=$oldest_id&newest_id=$newest_id"
+                var parameter = "request_data=$request_data"
+                if (user_id != null || oldest_id != null || newest_id != null) {
+                    parameter += "?"
                 }
+                if (user_id != null) {
+                    parameter += "&"
+
+                    parameter += "user_id=$user_id"
+                }
+                if (oldest_id != null) {
+                    parameter += "&"
+                    parameter += "oldest_id=$oldest_id"
+                }
+                if (newest_id != null) {
+                    parameter += "&"
+                    parameter += "newest_id=$newest_id"
+                }
+                client.get("$base_path$parameter")
+            },
+            {
+                client.getSerializer().fromJson(it, MediaStatus::class.java)
             }
         )
     }
