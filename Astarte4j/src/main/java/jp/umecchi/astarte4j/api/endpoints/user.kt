@@ -110,10 +110,11 @@ class user(private val client: AstarteClient) {
                 val base_path = "user/posts"
                 val request_data = "status"
                 //val parameter = "?request_data=$request_data&user_id=$user_id&oldest_id=$oldest_id&newest_id=$newest_id"
-                var parameter = "request_data=$request_data"
+                var parameter = ""
                 if (user_id != null || oldest_id != null || newest_id != null) {
                     parameter += "?"
                 }
+                parameter += "request_data=$request_data"
                 if (user_id != null) {
                     parameter += "&"
 
@@ -146,10 +147,11 @@ class user(private val client: AstarteClient) {
                 val base_path = "user/posts"
                 val request_data = "media"
                 //val parameter = "?request_data=$request_data&user_id=$user_id&oldest_id=$oldest_id&newest_id=$newest_id"
-                var parameter = "request_data=$request_data"
+                var parameter = ""
                 if (user_id != null || oldest_id != null || newest_id != null) {
                     parameter += "?"
                 }
+                parameter += "request_data=$request_data"
                 if (user_id != null) {
                     parameter += "&"
 
