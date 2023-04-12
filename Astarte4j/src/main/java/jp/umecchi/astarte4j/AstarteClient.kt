@@ -194,15 +194,14 @@ private constructor(
         }
     }
 
-    open fun ws(handler: Handler, listener: StreamListener,url: String){
+    open fun ws(handler: Handler, listener: StreamListener,url: String) : WebSocket{
         try {
             debugPrint(url)
             val request = Request.Builder()
                 .url(url)
                 .build()
-            val wsl = AstarteWebSocketListener(handler,listener)
-            client.newWebSocket(request,wsl)
-            return
+            val wsl = AstarteWebSocketListener(handler, listener)
+            return client.newWebSocket(request, wsl)
         } catch (e: IOException) {
             throw AstarteRequestException(e)
         }
