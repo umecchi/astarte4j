@@ -12,7 +12,7 @@ android {
     defaultConfig {
         minSdk 26
         targetSdk 33
-        versionCode 21
+        versionCode 22
         versionName "beta"
         version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -46,8 +46,8 @@ android {
 }
 
 dependencies {
-    implementation compileOnly('com.squareup.okhttp3:okhttp:5.0.0-alpha.4')
-    implementation compileOnly('com.google.code.gson:gson:2.9.0')
+    implementation compileOnly('com.squareup.okhttp3:okhttp:5.0.0-alpha.10')
+    implementation compileOnly('com.google.code.gson:gson:2.10.1')
 }
 
 afterEvaluate {

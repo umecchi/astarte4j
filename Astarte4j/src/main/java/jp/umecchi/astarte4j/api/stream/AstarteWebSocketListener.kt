@@ -3,26 +3,10 @@ package jp.umecchi.astarte4j.api.stream
 import okhttp3.*
 import okio.ByteString
 
-class WebSocketClient(
+class AstarteWebSocketListener(
     val handler: Handler,
-    val listener: StreamListener,
-    val url: String
+    val listener: StreamListener
 ) : WebSocketListener() {
-    private val ws: WebSocket
-
-    init {
-        val client = OkHttpClient()
-
-        val request = Request.Builder()
-            .url(url)
-            .build()
-
-        ws = client.newWebSocket(request, this)
-    }
-
-    fun send(message: String) {
-        ws.send(message)
-    }
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         println("WebSocket opened successfully")
