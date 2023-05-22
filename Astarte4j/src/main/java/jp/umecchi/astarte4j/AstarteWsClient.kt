@@ -90,7 +90,7 @@ private constructor(
                 .header("Upgrade","websocket")
                 .header("Sec-WebSocket-Protocol", "graphql-ws")
                 .build()
-            val wsl = AstarteWebSocketListener(handler, listener, gson)
+            val wsl = AstarteWebSocketListener(handler, listener,gson)
             return client.newWebSocket(request, wsl)
         } catch (e: IOException) {
             throw AstarteRequestException(e)
