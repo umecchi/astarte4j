@@ -3,9 +3,6 @@ package jp.umecchi.astarte4j
 import android.util.Log
 import com.google.gson.Gson
 import jp.umecchi.astarte4j.api.exception.AstarteRequestException
-import jp.umecchi.astarte4j.api.stream.AstarteWebSocketListener
-import jp.umecchi.astarte4j.api.stream.Handler
-import jp.umecchi.astarte4j.api.stream.StreamListener
 import okhttp3.*
 import java.io.IOException
 
@@ -178,21 +175,6 @@ private constructor(
                     .build()
             )
             return call.execute()
-        } catch (e: IOException) {
-            throw AstarteRequestException(e)
-        }
-    }
-
-    open fun ws(handler: Handler, listener: StreamListener,url: String) : WebSocket{
-        try {
-            debugPrint(url)
-            val request = Request.Builder()
-                .url(url)
-                .addHeader("Connection","Upgrade")
-                .addHeader("Upgrade","websocket")
-                .build()
-            val wsl = AstarteWebSocketListener(handler, listener)
-            return client.newWebSocket(request, wsl)
         } catch (e: IOException) {
             throw AstarteRequestException(e)
         }
