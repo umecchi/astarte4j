@@ -1,11 +1,14 @@
 package jp.umecchi.astarte4j.api.stream
 
+import com.google.gson.Gson
+import jp.umecchi.astarte4j.api.entities.status.ClientMessage
 import okhttp3.*
 import okio.ByteString
 
 class AstarteWebSocketListener(
     val handler: Handler,
-    val listener: StreamListener
+    val listener: StreamListener,
+    val gson: Gson
 ) : WebSocketListener() {
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
@@ -21,6 +24,8 @@ class AstarteWebSocketListener(
     override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
         println("Received binary message: ${bytes.hex()}")
         handler.onMessage(bytes.hex())
+        val clientMessage = gson.fromJson(bytes.hex(), ClientMessage::class.java)
+        handler.onClientMessage(clientMessage)
     }
 
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
