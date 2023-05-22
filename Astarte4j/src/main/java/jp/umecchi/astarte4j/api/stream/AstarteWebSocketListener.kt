@@ -2,6 +2,7 @@ package jp.umecchi.astarte4j.api.stream
 
 import com.google.gson.Gson
 import jp.umecchi.astarte4j.api.entities.status.Data
+import jp.umecchi.astarte4j.api.entities.status.NotificationData
 import okhttp3.*
 import okio.ByteString
 import org.json.JSONObject
@@ -27,17 +28,30 @@ class AstarteWebSocketListener(
         handler.onMessage(bytes.utf8())
         val j = JSONObject(bytes.utf8())
         println("JSONObject: $j")
-        /*
-        val event = j.getString("event")
-        val payload = j.getString("payload")
-        if (event == "update") {
+        val id = j.getString("id")
+        val from = j.getString("from")
+        val data_type = j.getString("data_type")
+        val data = j.getJSONObject("data")
+        if (data_type == "Text") {
+            val text = data.getString("Text")
+            handler.onText(text)
+        }
+        if (data_type == "StatusData") {
+            val StatusData = data.getString("StatusData")
             val status = gson.fromJson(
-                payload,
+                StatusData,
                 Data::class.java
             )
             handler.onStatus(status)
         }
-         */
+        if (data_type == "NotificationStatus") {
+            val NotificationStatus = data.getString("NotificationStatus")
+            val notification = gson.fromJson(
+                NotificationStatus,
+                NotificationData::class.java
+            )
+            handler.onNotification(notification)
+        }
     }
 
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
