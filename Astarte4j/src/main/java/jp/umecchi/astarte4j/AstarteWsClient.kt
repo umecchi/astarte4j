@@ -80,13 +80,15 @@ private constructor(
 
     open fun getInstanceName() = instanceName
 
-    open fun ws(handler: Handler, listener: StreamListener) : WebSocket{
+    open fun ws(handler: Handler, listener: StreamListener, token: String) : WebSocket{
         try {
             debugPrint(baseUrl)
             val request = Request.Builder()
                 .url(baseUrl)
-                .addHeader("Connection","Upgrade")
-                .addHeader("Upgrade","websocket")
+                .header("Authorization", "Bearer $token")
+                .header("Connection","Upgrade")
+                .header("Upgrade","websocket")
+                .header("Sec-WebSocket-Protocol", "graphql-ws")
                 .build()
             val wsl = AstarteWebSocketListener(handler, listener)
             return client.newWebSocket(request, wsl)
