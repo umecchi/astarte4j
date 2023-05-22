@@ -23,15 +23,10 @@ private constructor(
     ) {
 
         private var accessToken: String? = null
-        private var basicToken: String? = null
         private var debug = false
 
         fun accessToken(accessToken: String) = apply {
             this.accessToken = accessToken
-        }
-
-        fun basicToken(basicToken: String) = apply {
-            this.basicToken = basicToken
         }
 
         fun debug() = apply {
@@ -42,7 +37,7 @@ private constructor(
             return AstarteClient(
                 instanceName,
                 okHttpClientBuilder
-                    .addNetworkInterceptor(AuthorizationInterceptor(accessToken, basicToken))
+                    .addNetworkInterceptor(AuthorizationInterceptor(accessToken))
                     .build(),
                 gson
             ).also {
@@ -61,8 +56,7 @@ private constructor(
     }
 
     private class AuthorizationInterceptor(
-        val accessToken: String? = null,
-        val basicToken: String? = null
+        val accessToken: String? = null
     ) : Interceptor {
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain): Response {
@@ -73,11 +67,6 @@ private constructor(
                 .apply {
                     accessToken?.let {
                         header("Authorization", String.format("Bearer %s", it))
-                    }
-                }
-                .apply {
-                    basicToken?.let {
-                        header("Authorization", String.format("Basic %s", it))
                     }
                 }
                 .build()

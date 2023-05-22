@@ -30,6 +30,8 @@ class AstarteWebSocketListener(
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-        println("Connection failed: ${t.localizedMessage}")
+        val message = "Connection failed: ${t.localizedMessage}"
+        println(message)
+        handler.onMessage(message)
     }
 }
