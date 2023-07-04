@@ -9,11 +9,117 @@ import jp.umecchi.astarte4j.api.entities.status.Message
 import jp.umecchi.astarte4j.api.entities.status.Status
 import jp.umecchi.astarte4j.api.entities.user.AccessToken
 import jp.umecchi.astarte4j.api.entities.user.Account
+import jp.umecchi.astarte4j.api.entities.user.CreateAccount
 import jp.umecchi.astarte4j.api.exception.AstarteRequestException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 
 class user(private val client: AstarteClient) {
+
+    @Throws(AstarteRequestException::class)
+    fun createAccount(
+        email: String, client_id: String, client_secret: String
+    ): AstarteRequest<AccessToken> {
+        val parameters = Parameter().apply {
+            append("email", email)
+            append("client_id", client_id)
+            append("client_secret", client_secret)
+        }.build()
+        return AstarteRequest(
+            {
+                client.post(
+                    "user/create_account",
+                    RequestBody.create(
+                        "application/json; charset=utf-8".toMediaTypeOrNull(),
+                        parameters!!
+                    )
+                )
+            },
+            {
+                client.getSerializer().fromJson(it, CreateAccount::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun emailVerify(
+        user_id: String, code: String
+    ): AstarteRequest<AccessToken> {
+        val parameters = Parameter().apply {
+            append("user_id", user_id)
+            append("code", code)
+        }.build()
+        return AstarteRequest(
+            {
+                client.post(
+                    "user/email_verify",
+                    RequestBody.create(
+                        "application/json; charset=utf-8".toMediaTypeOrNull(),
+                        parameters!!
+                    )
+                )
+            },
+            {
+                client.getSerializer().fromJson(it, Message::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun passwordResetRequest(
+        user_id: String, email: String
+    ): AstarteRequest<AccessToken> {
+        val parameters = Parameter().apply {
+            append("user_id", user_id)
+            append("email", email)
+        }.build()
+        return AstarteRequest(
+            {
+                client.post(
+                    "user/password_reset_request",
+                    RequestBody.create(
+                        "application/json; charset=utf-8".toMediaTypeOrNull(),
+                        parameters!!
+                    )
+                )
+            },
+            {
+                client.getSerializer().fromJson(it, Message::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun passwordReset(
+        user_id: String,
+        email: String,
+        code: String,
+        new_password: String,
+        retype_new_password: String
+    ): AstarteRequest<AccessToken> {
+        val parameters = Parameter().apply {
+            append("user_id", user_id)
+            append("email", email)
+            append("code",code)
+            append("new_password",new_password)
+            append("retype_new_password",retype_new_password)
+        }.build()
+        return AstarteRequest(
+            {
+                client.post(
+                    "user/password_reset",
+                    RequestBody.create(
+                        "application/json; charset=utf-8".toMediaTypeOrNull(),
+                        parameters!!
+                    )
+                )
+            },
+            {
+                client.getSerializer().fromJson(it, Message::class.java)
+            }
+        )
+    }
+
     @Throws(AstarteRequestException::class)
     fun getToken(
         email: String, client_id: String, client_secret: String
