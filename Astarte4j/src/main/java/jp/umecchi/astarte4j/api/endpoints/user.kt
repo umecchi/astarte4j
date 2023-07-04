@@ -18,12 +18,12 @@ class user(private val client: AstarteClient) {
 
     @Throws(AstarteRequestException::class)
     fun createAccount(
-        email: String, client_id: String, client_secret: String
+        email: String, username: String, password: String
     ): AstarteRequest<AccessToken> {
         val parameters = Parameter().apply {
+            append("username", username)
+            append("password", password)
             append("email", email)
-            append("client_id", client_id)
-            append("client_secret", client_secret)
         }.build()
         return AstarteRequest(
             {
