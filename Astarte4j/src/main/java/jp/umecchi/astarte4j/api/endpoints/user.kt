@@ -19,7 +19,7 @@ class user(private val client: AstarteClient) {
     @Throws(AstarteRequestException::class)
     fun createAccount(
         email: String, username: String, password: String
-    ): AstarteRequest<AccessToken> {
+    ): AstarteRequest<CreateAccount> {
         val parameters = Parameter().apply {
             append("username", username)
             append("password", password)
@@ -44,7 +44,7 @@ class user(private val client: AstarteClient) {
     @Throws(AstarteRequestException::class)
     fun emailVerify(
         user_id: String, code: String
-    ): AstarteRequest<AccessToken> {
+    ): AstarteRequest<Message> {
         val parameters = Parameter().apply {
             append("user_id", user_id)
             append("code", code)
@@ -68,7 +68,7 @@ class user(private val client: AstarteClient) {
     @Throws(AstarteRequestException::class)
     fun passwordResetRequest(
         user_id: String, email: String
-    ): AstarteRequest<AccessToken> {
+    ): AstarteRequest<Message> {
         val parameters = Parameter().apply {
             append("user_id", user_id)
             append("email", email)
@@ -96,7 +96,7 @@ class user(private val client: AstarteClient) {
         code: String,
         new_password: String,
         retype_new_password: String
-    ): AstarteRequest<AccessToken> {
+    ): AstarteRequest<Message> {
         val parameters = Parameter().apply {
             append("user_id", user_id)
             append("email", email)
