@@ -3,6 +3,7 @@ package jp.umecchi.astarte4j.api.stream
 import com.google.gson.Gson
 import jp.umecchi.astarte4j.api.entities.status.Data
 import jp.umecchi.astarte4j.api.entities.status.NotificationData
+import jp.umecchi.astarte4j.api.entities.status.NotificationMessage
 import okhttp3.*
 import okio.ByteString
 import org.json.JSONObject
@@ -51,6 +52,14 @@ class AstarteWebSocketListener(
                 NotificationData::class.java
             )
             handler.onNotification(notification)
+        }
+        if (data_type == "NotificationMessage") {
+            val Message = data.getString("NotificationMessage")
+            val notificationMessage = gson.fromJson(
+                Message,
+                NotificationMessage::class.java
+            )
+            handler.onNotificationMessage(notificationMessage)
         }
     }
 
