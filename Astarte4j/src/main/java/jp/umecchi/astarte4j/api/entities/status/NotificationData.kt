@@ -22,6 +22,9 @@ class NotificationData(
     @SerializedName("reply_status")
     val reply_status: Data,
 
+    @SerializedName("message")
+    val message: String,
+
     @SerializedName("create_at")
     val create_at: Date,
 
