@@ -27,5 +27,14 @@ class Account(
 
     @SerializedName("aspoints")
     val aspoints: Int?,
+
+    @SerializedName("secret_word")
+    val secret_word: String?,
+
+    @SerializedName("follow_limit")
+    val follow_limit: String?,
+
+    @SerializedName("follow_message")
+    val follow_message: Boolean?,
 ) {
 }

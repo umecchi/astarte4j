@@ -7,12 +7,12 @@ plugins {
 group = 'com.github.umecchi'
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         minSdk 26
-        targetSdk 33
-        versionCode 39
+        targetSdk 34
+        versionCode 40
         versionName "beta"
         version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -33,7 +33,7 @@ android {
         jvmTarget = '1.8'
         freeCompilerArgs = ['-Xjvm-default=compatibility']
     }
-    buildToolsVersion '33.0.2'
+    buildToolsVersion '34.0.0'
     libraryVariants.all { variant ->
         variant.outputs.all { output ->
             output.packageLibrary.exclude("libs/*")

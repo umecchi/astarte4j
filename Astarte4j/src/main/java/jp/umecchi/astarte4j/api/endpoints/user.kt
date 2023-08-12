@@ -3,10 +3,7 @@ package jp.umecchi.astarte4j.api.endpoints
 import jp.umecchi.astarte4j.AstarteClient
 import jp.umecchi.astarte4j.AstarteRequest
 import jp.umecchi.astarte4j.Parameter
-import jp.umecchi.astarte4j.api.entities.status.Data
-import jp.umecchi.astarte4j.api.entities.status.MediaStatus
-import jp.umecchi.astarte4j.api.entities.status.Message
-import jp.umecchi.astarte4j.api.entities.status.Status
+import jp.umecchi.astarte4j.api.entities.status.*
 import jp.umecchi.astarte4j.api.entities.user.AccessToken
 import jp.umecchi.astarte4j.api.entities.user.Account
 import jp.umecchi.astarte4j.api.entities.user.CreateAccount
@@ -100,9 +97,9 @@ class user(private val client: AstarteClient) {
         val parameters = Parameter().apply {
             append("user_id", user_id)
             append("email", email)
-            append("code",code)
-            append("new_password",new_password)
-            append("retype_new_password",retype_new_password)
+            append("code", code)
+            append("new_password", new_password)
+            append("retype_new_password", retype_new_password)
         }.build()
         return AstarteRequest(
             {
@@ -275,6 +272,83 @@ class user(private val client: AstarteClient) {
             },
             {
                 client.getSerializer().fromJson(it, MediaStatus::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun follow(
+        user_id: String, secret_word: String, message: String
+    ): AstarteRequest<Message> {
+        val parameters = Parameter().apply {
+            append("user_id", user_id)
+            append("secret_word", secret_word)
+            append("message", message)
+        }.build()
+        return AstarteRequest(
+            {
+                client.post(
+                    "user/follow",
+                    RequestBody.create(
+                        "application/json; charset=utf-8".toMediaTypeOrNull(),
+                        parameters!!
+                    )
+                )
+            },
+            {
+                client.getSerializer().fromJson(it, Message::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun getFollowRequest(
+        oldest_id: String?,
+        newest_id: String?
+    ): AstarteRequest<FollowRequestResponseData> {
+        return AstarteRequest(
+            {
+                val base_path = "user/follow_request"
+                //val parameter = "?oldest_id=$oldest_id(newest_id=$newest_id)"
+                var parameter = ""
+                if (oldest_id != null) {
+                    parameter += "?"
+                    parameter += "oldest_id=$oldest_id"
+                }
+                if (newest_id != null) {
+                    parameter += "?"
+                    parameter += "newest_id=$newest_id"
+                }
+                client.get("$base_path$parameter")
+            },
+            {
+                client.getSerializer().fromJson(it, FollowRequestResponseData::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun getFollowSetting(
+        secret_word: String?,
+        follow_limit: String?,
+        follow_message: Boolean?
+    ): AstarteRequest<Account> {
+        val parameters = Parameter().apply {
+            secret_word?.let { append("secret_word", it) }
+            follow_limit?.let { append("follow_limit", it) }
+            follow_message?.let { append("follow_message", it) }
+        }.build()
+        return AstarteRequest(
+            {
+                client.patch(
+                    "user/follow_setting",
+                    RequestBody.create(
+                        "application/json; charset=utf-8".toMediaTypeOrNull(),
+                        parameters!!
+                    ))
+            },
+            {
+                client.getSerializer().fromJson(it, Account::class.java)
             }
         )
     }
