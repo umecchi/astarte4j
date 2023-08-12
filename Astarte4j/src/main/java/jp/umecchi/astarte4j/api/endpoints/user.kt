@@ -278,12 +278,12 @@ class user(private val client: AstarteClient) {
 
     @Throws(AstarteRequestException::class)
     fun follow(
-        user_id: String, secret_word: String, message: String
+        user_id: String, secret_word: String?, message: String?
     ): AstarteRequest<Message> {
         val parameters = Parameter().apply {
             append("user_id", user_id)
-            append("secret_word", secret_word)
-            append("message", message)
+            secret_word?.let { append("secret_word", it) }
+            message?.let { append("message", it) }
         }.build()
         return AstarteRequest(
             {
