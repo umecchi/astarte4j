@@ -64,11 +64,11 @@ private constructor(
             val compressedRequest = originalRequest.newBuilder()
                 .headers(originalRequest.headers)
                 .method(originalRequest.method, originalRequest.body)
-                .apply {
-                    accessToken?.let {
-                        header("Authorization", String.format("Bearer %s", it))
-                    }
-                }
+                //.apply {
+                    //accessToken?.let {
+                        //header("Authorization", String.format("Bearer %s", it))
+                    //}
+                //}
                 .build()
             return chain.proceed(compressedRequest)
         }
