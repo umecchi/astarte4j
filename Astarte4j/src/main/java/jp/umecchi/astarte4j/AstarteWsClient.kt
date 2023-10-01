@@ -82,9 +82,10 @@ private constructor(
 
     open fun ws(handler: Handler, listener: StreamListener, token: String) : WebSocket{
         try {
-            debugPrint(baseUrl)
+            val url = "$baseUrl?token=$token"
+            debugPrint(url)
             val request = Request.Builder()
-                .url("$baseUrl?token=$token")
+                .url(url)
                 .header("Connection","Upgrade")
                 .header("Upgrade","websocket")
                 .header("Sec-WebSocket-Protocol", "graphql-ws")
