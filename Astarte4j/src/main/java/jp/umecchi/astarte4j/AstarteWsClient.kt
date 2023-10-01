@@ -84,8 +84,7 @@ private constructor(
         try {
             debugPrint(baseUrl)
             val request = Request.Builder()
-                .url(baseUrl)
-                .header("Authorization", "Bearer $token")
+                .url("$baseUrl?token=$token")
                 .header("Connection","Upgrade")
                 .header("Upgrade","websocket")
                 .header("Sec-WebSocket-Protocol", "graphql-ws")
