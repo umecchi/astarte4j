@@ -21,7 +21,7 @@ class games(private val client: AstarteClient) {
     }
 
     @Throws(AstarteRequestException::class)
-    fun getGachaResult(): AstarteRequest<GachaResult> {
+    fun getGachaResult(): AstarteRequest<List<GachaResult>> {
         return AstarteRequest(
             {
                 client.get("games/gacha_result")
