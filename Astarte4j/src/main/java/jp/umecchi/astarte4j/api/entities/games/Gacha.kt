@@ -15,6 +15,6 @@ class Gacha(
     val add_aspoint: Long,
 
     @SerializedName("result")
-    val result: Result,
+    val result: kotlin.collections.List<Result>,
 ) {
 }

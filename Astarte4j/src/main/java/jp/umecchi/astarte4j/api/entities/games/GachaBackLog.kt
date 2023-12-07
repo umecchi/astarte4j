@@ -6,7 +6,7 @@ import java.util.*
 
 class GachaBackLog(
     @SerializedName("backlog")
-    val backlog: BackLog,
+    val backlog: kotlin.collections.List<BackLog>,
 
     @SerializedName("update_at")
     val update_at: Date,
