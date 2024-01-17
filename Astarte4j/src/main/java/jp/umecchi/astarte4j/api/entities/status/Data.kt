@@ -42,7 +42,7 @@ class Data(
     val reblog: Boolean,
 
     @SerializedName("reblog_content")
-    val reblog_content: ReblogStatusData,
+    val reblog_content: Data,
 
     @SerializedName("media")
     val media: List<Media> = emptyList(),
