@@ -17,11 +17,17 @@ class Data(
     @SerializedName("visibility")
     val visibility: String = Visibility.Public.value,
 
+    @SerializedName("reply")
+    val reply: Boolean,
+
     @SerializedName("reply_destination_id")
     val reply_destination_id: String,
 
-    @SerializedName("reply")
-    val reply: Boolean,
+    @SerializedName("reply_destination_user_ids")
+    val reply_destination_user_ids: List<String> = emptyList(),
+
+    @SerializedName("reply_destination_status_data")
+    val reply_destination_status_data: Data,
 
     @SerializedName("sensitive")
     val sensitive: Boolean,
@@ -52,9 +58,6 @@ class Data(
 ) {
     enum class Visibility(val value: String) {
         Public("public"),
-        //Home("home"),
-        //Followers("followers"),
-        //Specified("specified"),
-        //Private("private")
+        Follower("follower")
     }
 }

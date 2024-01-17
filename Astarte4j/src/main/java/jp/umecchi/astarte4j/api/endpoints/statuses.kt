@@ -6,6 +6,7 @@ import jp.umecchi.astarte4j.AstarteRequest
 import jp.umecchi.astarte4j.Parameter
 import jp.umecchi.astarte4j.api.entities.status.Data
 import jp.umecchi.astarte4j.api.entities.status.DeleteStatus
+import jp.umecchi.astarte4j.api.entities.status.DetailStatus
 import jp.umecchi.astarte4j.api.entities.status.Media
 import jp.umecchi.astarte4j.api.entities.status.Message
 import jp.umecchi.astarte4j.api.exception.AstarteRequestException
@@ -22,6 +23,7 @@ class statuses(private val client: AstarteClient) {
         mediaIds: JSONArray?,
         visibility: Data.Visibility = Data.Visibility.Public,
         reply_destination_id: String?,
+        reply_destination_user_ids: List<String>?,
         sensitive: Boolean?,
         introduction_sentence: String?
     ): AstarteRequest<Data> {
@@ -30,8 +32,9 @@ class statuses(private val client: AstarteClient) {
             mediaIds?.let { append("media", it) }
             append("visibility",visibility.value)
             reply_destination_id?.let { append("reply_destination_id", it) }
+            reply_destination_user_ids?.let { append("reply_destination_user_ids", it) }
             sensitive?.let { append("sensitive", it) }
-            introduction_sentence?.let { append("introduction_sentence:", it) }
+            introduction_sentence?.let { append("introduction_sentence", it) }
         }.build()
         Log.d("debug", parameters.toString())
         return AstarteRequest(
@@ -167,6 +170,21 @@ class statuses(private val client: AstarteClient) {
             },
             {
                 client.getSerializer().fromJson(it, Media::class.java)
+            }
+        )
+    }
+
+    @Throws(AstarteRequestException::class)
+    fun getStatuses(
+        post_id: String?
+    ): AstarteRequest<DetailStatus> {
+        return AstarteRequest(
+            {
+                val base_path = "statuses"
+                client.get("$base_path?post_id=$post_id")
+            },
+            {
+                client.getSerializer().fromJson(it, DetailStatus::class.java)
             }
         )
     }
